@@ -20,7 +20,7 @@ public class MainTest extends BaseTest {
         String newUserH2 = driver.findElement(By.xpath("//h2[text()='New User Signup!']")).getText();
         Assert.assertTrue(newUserH2.contains("New User Signup!"),"The h2 message is not as expected!");
         SignupLoginPage signupLoginPage = new SignupLoginPage(driver);
-        signupLoginPage.enterNameEmailAndSubmit(firstName+" "+lastName,email);
+        signupLoginPage.enterNameEmailAndClickSignup(firstName+" "+lastName,email);
         Assert.assertTrue(driver.findElement(By.xpath("//b[contains(text(),'Enter Account Information')]")).isDisplayed(),"Enter Account Info text is not present!");
         SignupPage signupPage = new SignupPage(driver);
         signupPage.enterSignupInfo(gender,password,dobDay,dobMonth,dobYear,firstName,lastName,companyName,companyAddress,countryName,state,city,zipCode,mobileNumber);
@@ -36,6 +36,29 @@ public class MainTest extends BaseTest {
 
     }
 
+    @Test
+    public void loginUserWithCorrectCredentials(){
+        LandingPage landingPage = new LandingPage(driver);
+        landingPage.openURL("https://automationexercise.com/");
+        Assert.assertEquals(driver.getTitle(),"Automation Exercise");
+        AbstractReusable abstractReusable = new AbstractReusable(driver);
+        abstractReusable.clickOnSignupLoginButton();
+        String loginText = driver.findElement(By.xpath("//h2[normalize-space()='Login to your account']")).getText();
+        Assert.assertEquals(loginText,"Login to your account");
+        SignupLoginPage signupLoginPage = new SignupLoginPage(driver);
+        signupLoginPage.enterEmailPasswordClickSignIn("var@var.com","ramu");
+        String userNameOnWebsite = driver.findElement(By.tagName("b")).getText();
+        Assert.assertEquals(userNameOnWebsite,"var");
+        abstractReusable.clickDeleteAccount();
+        String accountDeletedText = driver.findElement(By.xpath("//b[contains(text(),'Account Deleted!')]")).getText();
+        Assert.assertTrue(accountDeletedText.contains("ACCOUNT DELETED!"),"The h2 message is not as expected!");
+        AccountDeletedPage accountDeletedPage = new AccountDeletedPage(driver);
+        accountDeletedPage.clickOnContinueButton();
+
+
+
+
+    }
 
 
 

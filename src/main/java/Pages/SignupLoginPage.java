@@ -10,23 +10,43 @@ public class SignupLoginPage extends BaseTest {
     WebDriver driver;
 
     @FindBy(css = "input[name='name']")
-    WebElement nameField;
+    WebElement signupNameField;
 
     @FindBy(xpath = "//form[@action='/signup']//input[@type='email']")
-    WebElement emailField;
+    WebElement signupEmailField;
 
     @FindBy(xpath = "//button[contains(text(),'Signup')]")
-    WebElement submitButton;
+    WebElement signupSubmitButton;
+
+    @FindBy(xpath = "//input[@data-qa='login-email']")
+    WebElement signInEmailField;
+
+    @FindBy(xpath = "//input[@placeholder='Password']")
+    WebElement signInPasswordField;
+
+    @FindBy(css = "button[data-qa='login-button']")
+    WebElement signInButton;
+
+
 
     public SignupLoginPage(WebDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver,this);
     }
 
-    public void enterNameEmailAndSubmit(String name, String email){
-        nameField.sendKeys(name);
-        emailField.sendKeys(email);
-        submitButton.click();
-
+    public void enterNameEmailAndClickSignup(String signupName, String signupEmail){
+        signupNameField.sendKeys(signupName);
+        signupEmailField.sendKeys(signupEmail);
+        signupSubmitButton.click();
     }
+
+    public void enterEmailPasswordClickSignIn(String signInEmail, String signInPassword ){
+       signInEmailField.sendKeys(signInEmail);
+       signInPasswordField.sendKeys(signInPassword);
+       signInButton.click();
+    }
+
+
+
+
 }
