@@ -6,9 +6,12 @@ import org.testng.annotations.Test;
 import utils.AbstractReusable;
 import utils.BaseTest;
 
+import java.util.Objects;
+
 public class MainTest extends BaseTest {
 
-    @Test(dataProvider = "DataForTestCase1", groups = "testCase1")
+    //requires input of sign up details
+    //@Test(dataProvider = "DataForTestCase1", groups = "testCase1")
     public void RegisterUser(String gender, String password, String dobDay, String dobMonth, String dobYear,
                              String firstName, String lastName, String companyName, String companyAddress,
                              String countryName, String state, String city, String zipCode, String mobileNumber, String email) {
@@ -37,8 +40,8 @@ public class MainTest extends BaseTest {
     }
 
 
-    //test below requires input of valid emails with passwords to work
-    @Test(dataProvider = "DataForTestCase2")
+    //test below needs input of valid emails with passwords to work
+    //@Test(dataProvider = "DataForTestCase2")
     public void loginUserWithCorrectCredentials(String signInEmail, String signInPassword) {
         LandingPage landingPage = new LandingPage(driver);
         landingPage.openURL("https://automationexercise.com/");
@@ -60,8 +63,8 @@ public class MainTest extends BaseTest {
 
     }
 
-
-    @Test(dataProvider = "DataForTestCase3")
+    //data input has to be invalid password or username or both
+    //@Test(dataProvider = "DataForTestCase3")
     public void loginUserWithWrongCredentials(String signInEmail, String signInPassword) {
         LandingPage landingPage = new LandingPage(driver);
         landingPage.openURL("https://automationexercise.com/");
@@ -76,6 +79,25 @@ public class MainTest extends BaseTest {
         String errorMessage = driver.findElement(By.xpath("//p[@style='color: red;']")).getText();
         Assert.assertEquals(errorMessage, "Your email or password is incorrect!");
 
+
+    }
+
+    //data input has to be valid username and password
+    @Test(dataProvider = "DataForTestCase4")
+    public void logoutUser(String signInEmail, String signInPassword){
+        LandingPage landingPage = new LandingPage(driver);
+        landingPage.openURL("https://automationexercise.com/");
+        Assert.assertEquals(driver.getTitle(), "Automation Exercise");
+        AbstractReusable abstractReusable = new AbstractReusable(driver);
+        abstractReusable.clickOnSignupLoginButton();
+        String loginText = driver.findElement(By.xpath("//h2[normalize-space()='Login to your account']")).getText();
+        Assert.assertEquals(loginText, "Login to your account");
+        SignupLoginPage signupLoginPage = new SignupLoginPage(driver);
+        signupLoginPage.enterEmailPasswordClickSignIn(signInEmail, signInPassword);
+        String loggedInText = driver.findElement(By.xpath("//a[contains(text(),'Logged in as')]")).getText();
+        Assert.assertTrue(loggedInText.contains("Logged in as"));
+        abstractReusable.clickLogOutButton();
+        Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("login"));
 
     }
 
@@ -124,6 +146,14 @@ public class MainTest extends BaseTest {
                 {"tra@mail.com", "sa"}
 
 
+        };
+    }
+
+    @DataProvider(name = "DataForTestCase4")
+    public Object[][] logoutAccountCredentials(){
+        return new Object[][]{
+
+                {"var@var.com","sana"},{"dar@dar","sana"}
         };
     }
 

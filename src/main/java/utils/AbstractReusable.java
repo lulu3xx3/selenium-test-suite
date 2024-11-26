@@ -15,6 +15,9 @@ public class AbstractReusable extends BaseTest{
     @FindBy(xpath = "//a[contains(text(),'Delete Account')]")
     WebElement deleteAccountButton;
 
+    @FindBy(css = "a[href*='logout']")
+    WebElement logOutButton;
+
     public AbstractReusable(WebDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver,this);
@@ -26,6 +29,10 @@ public class AbstractReusable extends BaseTest{
 
     public void clickDeleteAccount(){
         deleteAccountButton.click();
+    }
+
+    public void clickLogOutButton(){
+        logOutButton.click();
     }
 
 
