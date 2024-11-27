@@ -83,7 +83,7 @@ public class MainTest extends BaseTest {
     }
 
     //data input has to be valid username and password
-    @Test(dataProvider = "DataForTestCase4")
+    //@Test(dataProvider = "DataForTestCase4")
     public void logoutUser(String signInEmail, String signInPassword){
         LandingPage landingPage = new LandingPage(driver);
         landingPage.openURL("https://automationexercise.com/");
@@ -98,6 +98,24 @@ public class MainTest extends BaseTest {
         Assert.assertTrue(loggedInText.contains("Logged in as"));
         abstractReusable.clickLogOutButton();
         Assert.assertTrue(Objects.requireNonNull(driver.getCurrentUrl()).contains("login"));
+
+    }
+
+
+    //data input provided should be of an existing email id we can reuse the test case 4 data
+    //@Test(dataProvider = "DataForTestCase5")
+    public void registerUserWithExistingEmail(String email, String name){
+        LandingPage landingPage = new LandingPage(driver);
+        landingPage.openURL("https://automationexercise.com/");
+        Assert.assertEquals(driver.getTitle(), "Automation Exercise", "The title is not as expected!");
+        AbstractReusable abstractReusable = new AbstractReusable(driver);
+        abstractReusable.clickOnSignupLoginButton();
+        String newUserH2 = driver.findElement(By.xpath("//h2[text()='New User Signup!']")).getText();
+        Assert.assertTrue(newUserH2.contains("New User Signup!"), "The h2 message is not as expected!");
+        SignupLoginPage signupLoginPage = new SignupLoginPage(driver);
+        signupLoginPage.enterNameEmailAndClickSignup(name, email);
+        Assert.assertTrue(driver.findElement(By.xpath("//p[text()='Email Address already exist!']")).isDisplayed());
+
 
     }
 
@@ -151,6 +169,14 @@ public class MainTest extends BaseTest {
 
     @DataProvider(name = "DataForTestCase4")
     public Object[][] logoutAccountCredentials(){
+        return new Object[][]{
+
+                {"var@var.com","sana"},{"dar@dar","sana"}
+        };
+    }
+
+    @DataProvider(name="DataForTestCase5")
+    public Object[][] registerUserExistingEmail(){
         return new Object[][]{
 
                 {"var@var.com","sana"},{"dar@dar","sana"}
