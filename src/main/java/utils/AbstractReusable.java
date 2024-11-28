@@ -18,6 +18,9 @@ public class AbstractReusable extends BaseTest{
     @FindBy(css = "a[href*='logout']")
     WebElement logOutButton;
 
+    @FindBy(xpath = "//a[contains(text(),'Contact us')]")
+    WebElement contactUsButton;
+
     public AbstractReusable(WebDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver,this);
@@ -35,5 +38,8 @@ public class AbstractReusable extends BaseTest{
         logOutButton.click();
     }
 
+    public void clickContactUsButton(){
+        contactUsButton.click();
+    }
 
 }

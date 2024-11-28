@@ -120,6 +120,29 @@ public class MainTest extends BaseTest {
     }
 
 
+
+    //@Test(dataProvider = "DataForTestCase6")
+    public void contactUsForm(String name, String email, String subject, String message,String uploadFilePath){
+        LandingPage landingPage = new LandingPage(driver);
+        landingPage.openURL("https://automationexercise.com/");
+        Assert.assertEquals(driver.getTitle(), "Automation Exercise", "The title is not as expected!");
+        AbstractReusable abstractReusable = new AbstractReusable(driver);
+        abstractReusable.clickContactUsButton();
+        String getInTouchText = driver.findElement(By.xpath("//h2[contains(text(),'Get In Touch')]")).getText();
+        Assert.assertEquals(getInTouchText,"GET IN TOUCH");
+        ContactUsPage contactUsPage = new ContactUsPage(driver);
+        contactUsPage.enterInfoAndSend(name,email,subject,message,uploadFilePath);
+        driver.switchTo().alert().accept();
+        String successText = driver.findElement(By.xpath("//div[@class='status alert alert-success']")).getText();
+        Assert.assertEquals(successText,"Success! Your details have been submitted successfully.");
+        contactUsPage.goBackHome();
+        Assert.assertEquals(driver.getTitle(), "Automation Exercise", "The title is not as expected!");
+
+
+
+    }
+
+
     @DataProvider(name = "DataForTestCase1")
     public Object[][] accountCreationData() {
         return new Object[][]{
@@ -182,6 +205,17 @@ public class MainTest extends BaseTest {
                 {"var@var.com","sana"},{"dar@dar","sana"}
         };
     }
+
+    @DataProvider(name="DataForTestCase6")
+    public Object[][] contactUsFormData() {
+        return new Object[][]{
+                {"John Doe", "johndoe@example.com", "Inquiry about product", "I would like to know more about your product features.","C:\\asr\\SendingThisFile.txt"},
+                {"Jane Smith", "janesmith@example.com", "Feedback", "The service was excellent, but I have a suggestion for improvement.","C:\\asr\\SendingThisFile.txt"},
+                {"Michael Johnson", "michaelj@example.com", "Support Needed", "I am facing an issue with logging into my account.","C:\\asr\\SendingThisFile.txt"},
+                {"Emily Davis", "emilyd@example.com", "Collaboration Proposal", "I am interested in collaborating with your team for a new project.","C:\\asr\\SendingThisFile.txt"}
+        };
+    }
+
 
 
 }
