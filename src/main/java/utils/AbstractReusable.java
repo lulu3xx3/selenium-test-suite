@@ -21,6 +21,9 @@ public class AbstractReusable extends BaseTest{
     @FindBy(xpath = "//a[contains(text(),'Contact us')]")
     WebElement contactUsButton;
 
+    @FindBy(xpath = "//a[contains(text(),'Test Cases')]")
+    WebElement testCasesButton;
+
     public AbstractReusable(WebDriver driver){
         this.driver = driver;
         PageFactory.initElements(driver,this);
@@ -40,6 +43,10 @@ public class AbstractReusable extends BaseTest{
 
     public void clickContactUsButton(){
         contactUsButton.click();
+    }
+
+    public void clickTestCasesButton(){
+        testCasesButton.click();
     }
 
 }

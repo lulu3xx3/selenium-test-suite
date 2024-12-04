@@ -138,8 +138,17 @@ public class MainTest extends BaseTest {
         contactUsPage.goBackHome();
         Assert.assertEquals(driver.getTitle(), "Automation Exercise", "The title is not as expected!");
 
+    }
 
 
+    @Test
+    public void testCasesPage(){
+        LandingPage landingPage = new LandingPage(driver);
+        landingPage.openURL("https://automationexercise.com/");
+        Assert.assertEquals(driver.getTitle(), "Automation Exercise", "The title is not as expected!");
+        AbstractReusable abstractReusable = new AbstractReusable(driver);
+        abstractReusable.clickTestCasesButton();
+        Assert.assertTrue(Objects.requireNonNull(driver.getTitle()).contains("Test Cases"));
     }
 
 
